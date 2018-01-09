@@ -58,49 +58,58 @@
         convertCanvasToImage(canvas)
       })
     })
-    let markParams = {
+    var markParams = {
       startX: 0,
       startY: 0,
       width: 1,
       height: 1,
       index: 0,
+      strokeWidth: 1,
+      color: 'red',
       type: 'rectangle' // ellipse
     }
-    $('canvas').on('mousedown', onMouseDown)
-    function onMouseDown(e) {
-      // 初始化图层信息，并绑定鼠标移动事件及鼠标松开事件
-      markParams.startX = e.pageX - $('canvas').position().left
-      markParams.startY = e.pageY - $('canvas').position().top
-      width = markParams.width
-      height = markParams.height
-      $('canvas').on('mousemove', onMouseMove)
-      $('canvas').on('mouseup', onMouseUp)
+    var MouseUtil = {
+      onMouseDown: function (e) {
+        markParams.startX = e.pageX - $('canvas').position().left
+        markParams.startY = e.pageY - $('canvas').position().top
+        width = markParams.width
+        height = markParams.height
+        $('canvas').on('mousemove', this.onMouseMove)
+        $('canvas').on('mouseup', this.onMouseUp)
+      },
+      onMouseMove: function (e) {
+        markParams.width = e.pageX - $('canvas').position().left - markParams.startX || 1
+        markParams.height = e.pageY - $('canvas').position().top - markParams.startY || 1
+        $('canvas').removeLayer('layerName' + markParams.index);
+        $('canvas').addLayer({
+          // type: 'rectangle',
+          type: markParams.type,
+          strokeStyle: markParams.color,
+          strokeWidth: markParams.strokeWidth,
+          name: 'layerName' + markParams.index,
+          fromCenter: false,
+          x: markParams.startX, y: markParams.startY,
+          width: markParams.width,
+          height: markParams.height
+        }).drawLayers()
+      },
+      onMouseUp: function () {
+        $('canvas').off('mousemove', this.onMouseMove)
+        $('canvas').off('mouseup', this.onMouseUp)
+        markParams.index++
+      }
     }
-    function onMouseMove(e) {
-      markParams.width = e.pageX - $('canvas').position().left - markParams.startX || 1
-      markParams.height = e.pageY - $('canvas').position().top - markParams.startY || 1
-      $('canvas').removeLayer('layerName' + markParams.index);
-      $('canvas').addLayer({
-        // type: 'rectangle',
-        type: markParams.type,
-        strokeStyle: 'red',
-        strokeWidth: 1,
-        name: 'layerName' + markParams.index,
-        fromCenter: false,
-        x: markParams.startX, y: markParams.startY,
-        width: markParams.width,
-        height: markParams.height
-      }).drawLayers()
-    }
-    function onMouseUp() {
-      $('canvas').off('mousemove', onMouseMove)
-      $('canvas').off('mouseup', onMouseUp)
-      markParams.index++
+    function drawerInit(event) {
+      return MouseUtil.onMouseDown(event)
     }
     $('.markImgByEllipse').on('click', function () {
+      $('canvas').off('mousedown', drawerInit)
+      $('canvas').on('mousedown', drawerInit)
       markParams.type = 'ellipse'
     })
-    $('.markImgByRect').on('click', function () {
+    $('.markImgByRect').on('click', function (event) {
+      $('canvas').off('mousedown', drawerInit)
+      $('canvas').on('mousedown', drawerInit)
       markParams.type = 'rectangle'
     })
     // $('.clearAllMarks').on('click', function () {
