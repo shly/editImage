@@ -144,9 +144,6 @@
       $('.hidden-box').fadeIn()
       id = $(this).siblings('img').attr('id')
       DrawImageUtil.initImage(infos, canvas, id)
-      canvas.off()
-      $('markImgByEllipse').off()
-      $('markImgByRect').off()
     })
     $('.close').on('click', function () {
       DrawImageUtil.clearAllMarks()
