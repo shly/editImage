@@ -132,7 +132,9 @@
       DrawImageUtil.setMarkType('rectangle')
     })
 
-    $('.clearAllMarks').on('click', DrawImageUtil.clearAllMarks)
+    $('.clearAllMarks').on('click', function () {
+      DrawImageUtil.clearAllMarks()
+    })
 
     $('.goback').on('click', DrawImageUtil.turnToLast)
 
