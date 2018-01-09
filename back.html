@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .sourceImg {
+            border: 1px solid black;
+            float: left;
+        }
+
+        .previewContainer {
+            /* display: none; */
+        }
+
+        #myCanvas {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sourceImg">
+        <img src="img/shiyitu1.jpg" alt="示意图一" id="img_001">
+        <button type="" class="preview">预览</button>
+    </div>
+    <div class="previewContainer">
+        <canvas id="myCanvas" width="800" height="500">
+            <p>该浏览器不支持</p>
+        </canvas>
+        <button class="saveImg">保存</button>
+        <button class="markImgByRect">矩形标记</button>
+        <button class="markImgByEllipse">椭圆标记</button>
+        <button class="clearAllMarks">清空所有标记</button>
+        <button class="goback">撤销上一步</button>
+        <button class="preview">关闭</button>
+    </div>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/jcanvas.min.js"></script>
+    <script>
+      $('canvas').drawImage({
+        layer: true,
+        name: 'background',
+        source: $('#img_001')[0],
+        x: 50, y: 50,
+        scale: 1,
+        // width: 400,
+        fromCenter: false
+      });
+      let result = [{ "startX": 141.59375, "startY": 138, "width": 68, "height": 45, "index": 1, "strokeWidth": 1, "color": "red", "type": "rectangle" }, { "startX": 289.59375, "startY": 193, "width": 131, "height": 58, "index": 2, "strokeWidth": 1, "color": "red", "type": "rectangle" }, { "startX": 574.59375, "startY": 314, "width": 120, "height": 47, "index": 3, "strokeWidth": 1, "color": "red", "type": "rectangle" }]
+      for (var i = 0; i<result.length; i++) {
+        $('canvas').addLayer({
+          // type: 'rectangle',
+          type: result[i].type,
+          strokeStyle: result[i].color,
+          strokeWidth: result[i].strokeWidth,
+          name: 'layerName' + result[i].index,
+          fromCenter: false,
+          x: result[i].startX, y: result[i].startY,
+          width: result[i].width,
+          height: result[i].height
+        }).drawLayers()
+      }
+    </script>
+</body>
+
+</html>
