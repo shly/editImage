@@ -136,7 +136,9 @@
       DrawImageUtil.clearAllMarks()
     })
 
-    $('.goback').on('click', DrawImageUtil.turnToLast)
+    $('.goback').on('click', function () {
+      DrawImageUtil.turnToLast()
+    })
 
     $('.preview').on('click', function () {
       $('.hidden-box').fadeIn()
