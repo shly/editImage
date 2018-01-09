@@ -7,58 +7,140 @@
   <title>Document</title>
   <style>
     .sourceImg {
-      border: 1px solid black;
+      border: 1px solid red;
       float: left;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .hidden-box {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(00, 00, 00, .7);
+      display: none;
     }
     .previewContainer {
-      /* display: none; */
+      width: 800px;
+      height: 600px;
+      border: 1px solid black;
+      border-radius: 3px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      background: #fff;
     }
     #myCanvas {
-      border: 1px solid red;
+      border-bottom: 1px solid #ccc;
+      margin: 0 auto;
+    }
+    .img-box {
+      float: left;
+      width: 200px;
+      height: 250px;
+      border: 1px solid green;
+      margin: 10px;
+    }
+    .img-box img{
+      width: 200px;
+      height: 200px;
+      vertical-align: top;
     }
   </style>
 </head>
 <body>
   <div class="sourceImg">
-    <img src="img/shiyitu1.jpg" alt="示意图一" id="img_001">
-    <button type="" class="preview">预览</button>
+    <div class="img-box">
+      <img src="img/shiyitu1.jpg" alt="示意图一" id="img_001">
+      <button type="" class="preview">预览</button>
+    </div>
+    <div class="img-box">
+      <img src="img/shiyitu1.jpg" alt="示意图一" id="img_002">
+      <button type="" class="preview">预览</button>
+    </div>
+    <div class="img-box">
+      <img src="img/shiyitu1.jpg" alt="示意图一" id="img_003">
+      <button type="" class="preview">预览</button>
+    </div>
+    <div class="img-box">
+      <img src="img/shiyitu1.jpg" alt="示意图一" id="img_004">
+      <button type="" class="preview">预览</button>
+    </div>
+    <div class="img-box">
+      <img src="img/shiyitu1.jpg" alt="示意图一" id="img_005">
+      <button type="" class="preview">预览</button>
+    </div>
   </div>
-  <div class="previewContainer">
-    <canvas id="myCanvas" width="800" height="500">
-      <p>该浏览器不支持</p>
-    </canvas>
-    <button class="saveImg">保存</button>
-    <button class="markImgByRect">矩形标记</button>
-    <button class="markImgByEllipse">椭圆标记</button>
-    <button class="markImgByText">添加文字</button>
-    <button class="clearAllMarks">清空所有标记</button>
-    <button class="goback">撤销上一步</button>
-    <button class="preview">关闭</button>
+  <div class="hidden-box">
+    <div class="previewContainer">
+      <canvas id="myCanvas" width="800" height="500">
+        <p>该浏览器不支持</p>
+      </canvas>
+      <div class="contron-btns">
+        <button class="markImgByRect">矩形标记</button>
+        <button class="markImgByEllipse">椭圆标记</button>
+        <button class="goback">撤销上一步</button>
+        <button class="clearAllMarks">清空所有标记</button>
+        <button class="preview">关闭</button>
+        <button class="saveImg">保存</button>
+      </div>
+    </div>
   </div>
   <script src="js/jquery-3.2.1.min.js"></script>
   <script src="js/jcanvas.min.js"></script>
   <script>
+    let markInfos = [{ "type": "rectangle", "strokeStyle": "red", "strokeWidth": 1, "name": "ln_0", "fromCenter": false, "x": 368.59375, "y": 214, "width": 65, "height": 84 }, { "type": "rectangle", "strokeStyle": "red", "strokeWidth": 1, "name": "ln_1", "fromCenter": false, "x": 512.59375, "y": 300, "width": 93, "height": 88 }, { "type": "rectangle", "strokeStyle": "red", "strokeWidth": 1, "name": "ln_2", "fromCenter": false, "x": 384.59375, "y": 378, "width": 61, "height": 47 }, { "type": "ellipse", "strokeStyle": "red", "strokeWidth": 1, "name": "ln_3", "fromCenter": false, "x": 286.59375, "y": 173, "width": 400, "height": 299 }]
     $(function() {
       // 点击预览按钮预览图片
       $('.preview').on('click', function () {
-        $('.previewContainer').toggle()
+        $('.hidden-box').fadeToggle()
+        if (markParams.index > 0) {
+          $('canvas').removeLayers().drawLayers();
+          initImage(markInfos)
+          markParams.index = 0
+          markList.length = 0
+        }
+        $('canvas').off()
+        $('markImgByEllipse').off()
+        $('markImgByRect').off()
       })
+      // getMarkInfos()
+      initImage(markInfos)
+      // 将canvas上的内容保存为图片
+    })
+    function getMarkInfos() {
+      $.post("test.php", { "func": "getNameAndTime" },
+        function (data) {
+          initImage(markInfos)
+        }, "json");
+    }
+    // 获取标记信息并初始化预览图片
+    function initImage(markInfos) {
       // 从DOM中获取图片显示到canvas上
       $('canvas').drawImage({
         layer: true,
         name: 'background',
         source: $('#img_001')[0],
         x: 50, y: 50,
-        scale: 1,
-        // width: 400,
+        width: 750,
+        height: 400,
         fromCenter: false
       });
-      // 将canvas上的内容保存为图片
-      $('.saveImg').on('click', function () {
-        var canvas = $('canvas')
-        convertCanvasToImage(canvas)
-      })
-    })
+      if (markInfos && markInfos.length > 0) {
+        for (var i = 0; i < markInfos.length; i++) {
+          markInfos[i].name = 'last_' + markInfos[i].name
+          $('canvas').addLayer(markInfos[i]).drawLayers()
+        }
+      }
+    }
+    function submitMarkInfo () {
+      $.post("test.php", { 'choices[]': ["Jon", "Susan"] });
+    }
     var markParams = {
       startX: 0,
       startY: 0,
@@ -67,42 +149,51 @@
       index: 0,
       strokeWidth: 1,
       color: 'red',
-      type: 'rectangle' // ellipse
+      type: 'rectangle', // ellipse
+      layerName: 'ln_'
     }
+    var markList = []
     var MouseUtil = {
+      options: {},
       onMouseDown: function (e) {
-        markParams.startX = e.pageX - $('canvas').position().left
-        markParams.startY = e.pageY - $('canvas').position().top
+        var position = document.querySelector('canvas').getBoundingClientRect()
+        markParams.startX = e.pageX - position.x
+        markParams.startY = e.pageY - position.y
         width = markParams.width
         height = markParams.height
         $('canvas').on('mousemove', this.onMouseMove)
         $('canvas').on('mouseup', this.onMouseUp)
       },
       onMouseMove: function (e) {
-        markParams.width = e.pageX - $('canvas').position().left - markParams.startX || 1
-        markParams.height = e.pageY - $('canvas').position().top - markParams.startY || 1
-        $('canvas').removeLayer('layerName' + markParams.index);
-        $('canvas').addLayer({
+        var position = document.querySelector('canvas').getBoundingClientRect()
+        markParams.width = (e.pageX - position.x - markParams.startX) || 1
+        markParams.height = (e.pageY - position.y - markParams.startY) || 1
+        $('canvas').removeLayer(markParams.layerName + markParams.index);
+        this.options = {
           // type: 'rectangle',
           type: markParams.type,
           strokeStyle: markParams.color,
           strokeWidth: markParams.strokeWidth,
-          name: 'layerName' + markParams.index,
+          name: markParams.layerName + markParams.index,
           fromCenter: false,
           x: markParams.startX, y: markParams.startY,
           width: markParams.width,
           height: markParams.height
-        }).drawLayers()
+        }
+        $('canvas').addLayer(this.options).drawLayers()
       },
       onMouseUp: function () {
-        $('canvas').off('mousemove', this.onMouseMove)
-        $('canvas').off('mouseup', this.onMouseUp)
+        $('canvas').off('mousemove')
+        $('canvas').off('mouseup')
         markParams.index++
+        markList.push(JSON.parse(JSON.stringify(this.options)))
       }
     }
+    // 鼠标按下的事件
     function drawerInit(event) {
       return MouseUtil.onMouseDown(event)
     }
+    /**下面给各种按钮绑定相应事件*/
     $('.markImgByEllipse').on('click', function () {
       $('canvas').off('mousedown')
       $('canvas').on('mousedown', drawerInit)
@@ -113,22 +204,13 @@
       $('canvas').on('mousedown', drawerInit)
       markParams.type = 'rectangle'
     })
-    $('.markImgByText').on('click', function (event) {
-      $('canvas').off('mousedown', drawerInit)
-    })
     $('.clearAllMarks').on('click', function () {
       // 清空所有标记
       if (markParams.index > 0) {
         $('canvas').removeLayers().drawLayers();
-        $('canvas').drawImage({
-          layer: true,
-          name: 'background',
-          source: $('#img_001')[0],
-          x: 50, y: 50,
-          scale: 1,
-          fromCenter: false
-        });
+        initImage(markInfos)
         markParams.index = 0
+        markList.length = 0
       }
     })
     $('.goback').on('click', function () {
@@ -136,8 +218,16 @@
       if (markParams.index > 0){
         $('canvas').removeLayer(-1).drawLayers();
         markParams.index--
+        markList.pop()
       }
     })
+    // 保存图片
+    $('.saveImg').on('click', function () {
+      console.log(JSON.parse(JSON.stringify(markInfos)).concat(markList))
+      submitMarkInfo(markList)
+    })
+    /**上面给各种按钮绑定相应事件*/
+    
   </script>
 </body>
 </html>
