@@ -126,17 +126,16 @@
      canvas.on('mousedown', DrawImageUtil.drawMark)
       DrawImageUtil.setMarkType('ellipse')
     })
-    $('.markImgByRect').on('click', function (event) {
+    $('.markImgByRect').on('click', function () {
      canvas.off('mousedown')
      canvas.on('mousedown', DrawImageUtil.drawMark)
       DrawImageUtil.setMarkType('rectangle')
     })
-    $('.clearAllMarks').on('click', function(){
-      DrawImageUtil.clearAllMarks(infos, canvas, id)
-    })
-    $('.goback').on('click', function () {
-      DrawImageUtil.turnToLast(canvas)
-    })
+
+    $('.clearAllMarks').on('click', DrawImageUtil.clearAllMarks)
+
+    $('.goback').on('click', DrawImageUtil.turnToLast)
+
     $('.preview').on('click', function () {
       $('.hidden-box').fadeIn()
       id = $(this).siblings('img').attr('id')
@@ -146,7 +145,7 @@
       $('markImgByRect').off()
     })
     $('.close').on('click', function () {
-      DrawImageUtil.clearAllMarks(canvas, id)
+      DrawImageUtil.clearAllMarks()
       canvas.off()
       $('markImgByEllipse').off()
       $('markImgByRect').off()

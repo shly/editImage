@@ -15,11 +15,16 @@ var DrawImageUtil = {}
     layerName: 'ln_'
   }
   var markList = []
-
+  var canvas = {}
+  var infos = {}
+  var imageId = ''
   DrawImageUtil = {
     // 初始化预览的图片和标记
-    initImage: function (infos, canvas, imageId) {
+    initImage: function (detailInfos, cvs, imgId) {
       // 从DOM中获取图片显示到canvas上
+      canvas = cvs
+      infos = detailInfos
+      imageId = imgId
       canvas.drawImage(infos.imageInfo);
       if (infos.markInfos && infos.markInfos.length > 0) {
         for (var i = 0; i < infos.markInfos.length; i++) {
@@ -29,7 +34,7 @@ var DrawImageUtil = {}
       }
     },
     // 开始标记
-    drawMark: function (event) {
+    drawMark: function () {
       return MouseUtil.onMouseDown(event)
     },
     // 设置标记类型
@@ -37,7 +42,7 @@ var DrawImageUtil = {}
       markParams.type = type
     },
     // 清除所有标记
-    clearAllMarks: function (infos, canvas, imageId) {
+    clearAllMarks: function () {
       if (markParams.index > 0) {
         canvas.removeLayers().drawLayers();
         this.initImage(infos, canvas, imageId)
@@ -46,7 +51,7 @@ var DrawImageUtil = {}
       }
     },
     // 回到上一步操作
-    turnToLast: function (canvas) {
+    turnToLast: function () {
       if (markParams.index > 0) {
         canvas.removeLayer(-1).drawLayers();
         markParams.index--
@@ -61,19 +66,19 @@ var DrawImageUtil = {}
   var MouseUtil = {
     options: {},
     onMouseDown: function (e) {
-      var position = document.querySelector('canvas').getBoundingClientRect()
+      var position = canvas[0].getBoundingClientRect()
       markParams.startX = e.pageX - position.x
       markParams.startY = e.pageY - position.y
       width = markParams.width
       height = markParams.height
-      $('canvas').on('mousemove', this.onMouseMove)
-      $('canvas').on('mouseup', this.onMouseUp)
+      canvas.on('mousemove', this.onMouseMove)
+      canvas.on('mouseup', this.onMouseUp)
     },
     onMouseMove: function (e) {
-      var position = document.querySelector('canvas').getBoundingClientRect()
+      var position = canvas[0].getBoundingClientRect()
       markParams.width = (e.pageX - position.x - markParams.startX) || 1
       markParams.height = (e.pageY - position.y - markParams.startY) || 1
-      $('canvas').removeLayer(markParams.layerName + markParams.index);
+      canvas.removeLayer(markParams.layerName + markParams.index);
       this.options = {
         type: markParams.type,
         strokeStyle: markParams.color,
@@ -84,11 +89,11 @@ var DrawImageUtil = {}
         width: markParams.width,
         height: markParams.height
       }
-      $('canvas').addLayer(this.options).drawLayers()
+      canvas.addLayer(this.options).drawLayers()
     },
     onMouseUp: function () {
-      $('canvas').off('mousemove')
-      $('canvas').off('mouseup')
+      canvas.off('mousemove')
+      canvas.off('mouseup')
       markParams.index++
       markList.push(JSON.parse(JSON.stringify(this.options)))
     }
