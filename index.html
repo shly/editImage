@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .sourceImg {
+      border: 1px solid black;
+      float: left;
+    }
+    .previewContainer {
+      /* display: none; */
+    }
+    #myCanvas {
+      border: 1px solid red;
+    }
+  </style>
+</head>
+<body>
+  <div class="sourceImg">
+    <img src="img/shiyitu1.jpg" alt="示意图一" id="img_001">
+    <button type="" class="preview">预览</button>
+  </div>
+  <div class="previewContainer">
+    <canvas id="myCanvas" width="800" height="500">
+      <p>该浏览器不支持</p>
+    </canvas>
+    <button type="" class="saveImg">保存</button>
+    <button type="" class="markImgByRect">矩形标记</button>
+    <button type="" class="markImgByEllipse">椭圆标记</button>
+    <!-- <button type="" class="clearAllMarks">还原</button>
+    <button type="" class="goback">返回上一步</button> -->
+    <button type="" class="preview">关闭</button>
+  </div>
+  <script src="js/jquery-3.2.1.min.js"></script>
+  <script src="js/jcanvas.min.js"></script>
+  <script>
+    $(function() {
+      // 点击预览按钮预览图片
+      $('.preview').on('click', function () {
+        $('.previewContainer').toggle()
+      })
+      // 从DOM中获取图片显示到canvas上
+      $('canvas').drawImage({
+        layer: true,
+        name: 'background',
+        source: $('#img_001')[0],
+        x: 50, y: 50,
+        scale: 1,
+        // width: 400,
+        fromCenter: false
+      });
+      // 将canvas上的内容保存为图片
+      $('.saveImg').on('click', function () {
+        var canvas = $('canvas')
+        convertCanvasToImage(canvas)
+      })
+    })
+    let markParams = {
+      startX: 0,
+      startY: 0,
+      width: 1,
+      height: 1,
+      index: 0,
+      type: 'rectangle' // ellipse
+    }
+    $('canvas').on('mousedown', onMouseDown)
+    function onMouseDown(e) {
+      // 初始化图层信息，并绑定鼠标移动事件及鼠标松开事件
+      markParams.startX = e.pageX - $('canvas').position().left
+      markParams.startY = e.pageY - $('canvas').position().top
+      width = markParams.width
+      height = markParams.height
+      $('canvas').on('mousemove', onMouseMove)
+      $('canvas').on('mouseup', onMouseUp)
+    }
+    function onMouseMove(e) {
+      markParams.width = e.pageX - $('canvas').position().left - markParams.startX || 1
+      markParams.height = e.pageY - $('canvas').position().top - markParams.startY || 1
+      $('canvas').removeLayer('layerName' + markParams.index);
+      $('canvas').addLayer({
+        // type: 'rectangle',
+        type: markParams.type,
+        strokeStyle: 'red',
+        strokeWidth: 1,
+        name: 'layerName' + markParams.index,
+        fromCenter: false,
+        x: markParams.startX, y: markParams.startY,
+        width: markParams.width,
+        height: markParams.height
+      }).drawLayers()
+    }
+    function onMouseUp() {
+      $('canvas').off('mousemove', onMouseMove)
+      $('canvas').off('mouseup', onMouseUp)
+      markParams.index++
+    }
+    $('.markImgByEllipse').on('click', function () {
+      markParams.type = 'ellipse'
+    })
+    $('.markImgByRect').on('click', function () {
+      markParams.type = 'rectangle'
+    })
+    // $('.clearAllMarks').on('click', function () {
+    //   // 清空所有标记
+    //   $('canvas').removeLayers(function (layer) {
+    //     return (layer.name.indexOf('layerName') !== -1);
+    //   });
+    // })
+    // $('.goback').on('click', function () {
+    //   // 清空所有标记
+    //   $('canvas').removeLayer(-1);
+    // })
+  </script>
+</body>
+</html>
