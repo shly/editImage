@@ -118,16 +118,18 @@
     })
     $('.clearAllMarks').on('click', function () {
       // 清空所有标记
-      $('canvas').removeLayers().drawLayers();
-      $('canvas').drawImage({
-        layer: true,
-        name: 'background',
-        source: $('#img_001')[0],
-        x: 50, y: 50,
-        scale: 1,
-        fromCenter: false
-      });
-      markParams.index = 0
+      if (markParams.index > 0) {
+        $('canvas').removeLayers().drawLayers();
+        $('canvas').drawImage({
+          layer: true,
+          name: 'background',
+          source: $('#img_001')[0],
+          x: 50, y: 50,
+          scale: 1,
+          fromCenter: false
+        });
+        markParams.index = 0
+      }
     })
     $('.goback').on('click', function () {
       // 撤销上一步操作
