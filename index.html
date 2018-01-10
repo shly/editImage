@@ -343,10 +343,12 @@
     $('.img-box').on('click', function () {
       $('.hidden-box').fadeIn()
       src = $(this).children('img').attr('src')
-      getMarkInfos().done(function(){
-        infos.imageInfo.source = src
-        DrawImageUtil.initImage(infos, canvas)
-      })
+      // getMarkInfos().done(function(){
+      //   infos.imageInfo.source = src
+      //   DrawImageUtil.initImage(infos, canvas)
+      // })
+      infos.imageInfo.source = src
+      DrawImageUtil.initImage(infos, canvas)
     })
     $('.close').on('click', function () {
       DrawImageUtil.clearAllMarks()
