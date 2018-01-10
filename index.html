@@ -7,11 +7,14 @@
   <title>Document</title>
   <style>
     .sourceImg {
-      border: 1px solid red;
       float: left;
       width: 100%;
       height: 100%;
       overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
     }
     .hidden-box {
       position: absolute;
@@ -42,14 +45,85 @@
     .img-box {
       float: left;
       width: 200px;
-      height: 250px;
-      border: 1px solid green;
+      height: 200px;
+      outline: 1px solid #ccc;
+      border-radius: 3px;
+      /* overflow: hidden; */
       margin: 10px;
+      position: relative;
+      box-sizing: border-box;
     }
     .img-box img{
       width: 200px;
       height: 200px;
       vertical-align: top;
+      cursor: pointer;
+      box-sizing: border-box;
+    }
+    .img-box .describe-box {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(00, 00, 00, .7);
+      display: none;
+      /* height: 200px; */
+    }
+    .img-box .describe-box ul {
+      margin: 0;
+      padding: 5px 10px;
+      list-style: none;
+      color: #fff;
+      word-break: break-all;
+      max-height: 200px;
+      overflow-y: auto;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+    .img-box .describe-box ul::-webkit-scrollbar{
+      width: 3px;
+      /* background: #ccc; */
+    }
+    .img-box .describe-box ul::-webkit-scrollbar-thumb{
+      width: 3px;
+      background: #312f2f;
+    }
+    .contron-btns {
+      text-align: right;
+      margin: 10px;
+    }
+    .contron-btns button{
+      min-width: 80px;
+      display: inline-block;
+      margin-bottom: 0;
+      font-weight: 400;
+      text-align: center;
+      vertical-align: middle;
+      touch-action: manipulation;
+      cursor: pointer;
+      background-image: none;
+      border: 1px solid transparent;
+      white-space: nowrap;
+      line-height: 1.5;
+      user-select: none;
+      padding: 6px 15px;
+      font-size: 12px;
+      transform: translateZ(0);
+      border-radius: 3px;
+      transition: color .2s linear,background-color .2s linear,border .2s linear;
+      color: #4d4d4d;
+      background-color: transparent;
+      border-color: #b4c1c9;
+    }
+    .contron-btns button.saveImg {
+      color: #fff;
+      background-color: #3a68ad;
+      border-color: #3a68ad;
+    }
+    .holdplace {
+      height: 0px;
+      visibility: none;
+      outline: none;
     }
   </style>
 </head>
@@ -57,24 +131,161 @@
   <div class="sourceImg">
     <div class="img-box">
       <img src="img/shiyitu1.jpg" alt="示意图一" id="img_001">
-      <button type="" class="preview">预览</button>
+      <div class="describe-box">
+        <ul>
+          <li>
+            <label>时间：</label>
+            <span>123456789012345678901234567890</span>
+          </li>
+          <li>
+            <label>时间：</label>
+            <span>111111</span>
+          </li>
+        </ul>
+      </div>
     </div>
     <div class="img-box">
-      <img src="img/shiyitu1.jpg" alt="示意图一" id="img_002">
-      <button type="" class="preview">预览</button>
+      <img src="img/shiyitu1.jpg" alt="示意图一" id="img_001">
+      <div class="describe-box">
+        <ul>
+          <li>
+            <label>时间：</label>
+            <span>123456789012345678901234567890</span>
+          </li>
+          <li>
+            <label>时间：</label>
+            <span>111111</span>
+          </li>
+        </ul>
+      </div>
     </div>
     <div class="img-box">
-      <img src="img/shiyitu1.jpg" alt="示意图一" id="img_003">
-      <button type="" class="preview">预览</button>
+      <img src="img/shiyitu1.jpg" alt="示意图一" id="img_001">
+      <div class="describe-box">
+        <ul>
+          <li>
+            <label>时间：</label>
+            <span>123456789012345678901234567890</span>
+          </li>
+          <li>
+            <label>时间：</label>
+            <span>111111</span>
+          </li>
+        </ul>
+      </div>
     </div>
     <div class="img-box">
-      <img src="img/shiyitu1.jpg" alt="示意图一" id="img_004">
-      <button type="" class="preview">预览</button>
+      <img src="img/shiyitu1.jpg" alt="示意图一" id="img_001">
+      <div class="describe-box">
+        <ul>
+          <li>
+            <label>时间：</label>
+            <span>123456789012345678901234567890</span>
+          </li>
+          <li>
+            <label>时间：</label>
+            <span>111111</span>
+          </li>
+        </ul>
+      </div>
     </div>
     <div class="img-box">
-      <img src="img/shiyitu1.jpg" alt="示意图一" id="img_005">
-      <button type="" class="preview">预览</button>
+      <img src="img/shiyitu1.jpg" alt="示意图一" id="img_001">
+      <div class="describe-box">
+        <ul>
+          <li>
+            <label>时间：</label>
+            <span>123456789012345678901234567890</span>
+          </li>
+          <li>
+            <label>时间：</label>
+            <span>111111</span>
+          </li>
+        </ul>
+      </div>
     </div>
+    <div class="img-box">
+      <img src="img/shiyitu1.jpg" alt="示意图一" id="img_001">
+      <div class="describe-box">
+        <ul>
+          <li>
+            <label>时间：</label>
+            <span>123456789012345678901234567890</span>
+          </li>
+          <li>
+            <label>时间：</label>
+            <span>111111</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="img-box">
+      <img src="img/shiyitu1.jpg" alt="示意图一" id="img_001">
+      <div class="describe-box">
+        <ul>
+          <li>
+            <label>时间：</label>
+            <span>123456789012345678901234567890</span>
+          </li>
+          <li>
+            <label>时间：</label>
+            <span>111111</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="img-box">
+      <img src="img/shiyitu1.jpg" alt="示意图一" id="img_001">
+      <div class="describe-box">
+        <ul>
+          <li>
+            <label>时间：</label>
+            <span>123456789012345678901234567890</span>
+          </li>
+          <li>
+            <label>时间：</label>
+            <span>111111</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="img-box">
+      <img src="img/shiyitu1.jpg" alt="示意图一" id="img_001">
+      <div class="describe-box">
+        <ul>
+          <li>
+            <label>时间：</label>
+            <span>123456789012345678901234567890</span>
+          </li>
+          <li>
+            <label>时间：</label>
+            <span>111111</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="img-box">
+      <img src="img/shiyitu1.jpg" alt="示意图一" id="img_001">
+      <div class="describe-box">
+        <ul>
+          <li>
+            <label>时间：</label>
+            <span>123456789012345678901234567890</span>
+          </li>
+          <li>
+            <label>时间：</label>
+            <span>111111</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="img-box holdplace"></div>
+    <div class="img-box holdplace"></div>
+    <div class="img-box holdplace"></div>
+    <div class="img-box holdplace"></div>
+    <div class="img-box holdplace"></div>
+    <div class="img-box holdplace"></div>
+    <div class="img-box holdplace"></div>
   </div>
   <div class="hidden-box">
     <div class="previewContainer">
@@ -86,148 +297,99 @@
         <button class="markImgByEllipse">椭圆标记</button>
         <button class="goback">撤销上一步</button>
         <button class="clearAllMarks">清空所有标记</button>
-        <button class="preview">关闭</button>
+        <button class="close">关闭</button>
         <button class="saveImg">保存</button>
       </div>
     </div>
   </div>
   <script src="js/jquery-3.2.1.min.js"></script>
   <script src="js/jcanvas.min.js"></script>
+  <script src="js/dealImage.js"></script>
   <script>
-    let markInfos = [{ "type": "rectangle", "strokeStyle": "red", "strokeWidth": 1, "name": "ln_0", "fromCenter": false, "x": 368.59375, "y": 214, "width": 65, "height": 84 }, { "type": "rectangle", "strokeStyle": "red", "strokeWidth": 1, "name": "ln_1", "fromCenter": false, "x": 512.59375, "y": 300, "width": 93, "height": 88 }, { "type": "rectangle", "strokeStyle": "red", "strokeWidth": 1, "name": "ln_2", "fromCenter": false, "x": 384.59375, "y": 378, "width": 61, "height": 47 }, { "type": "ellipse", "strokeStyle": "red", "strokeWidth": 1, "name": "ln_3", "fromCenter": false, "x": 286.59375, "y": 173, "width": 400, "height": 299 }]
-    $(function() {
-      // 点击预览按钮预览图片
-      $('.preview').on('click', function () {
-        $('.hidden-box').fadeToggle()
-        if (markParams.index > 0) {
-          $('canvas').removeLayers().drawLayers();
-          initImage(markInfos)
-          markParams.index = 0
-          markList.length = 0
-        }
-        $('canvas').off()
-        $('markImgByEllipse').off()
-        $('markImgByRect').off()
-      })
-      // getMarkInfos()
-      initImage(markInfos)
-      // 将canvas上的内容保存为图片
-    })
-    function getMarkInfos() {
-      $.post("test.php", { "func": "getNameAndTime" },
-        function (data) {
-          initImage(markInfos)
-        }, "json");
+    var canvas = $('#myCanvas')
+    var src = ''
+    var infos = {}
+    infos.imageInfo = {
+      layer: true,
+      name: 'background',
+      source: '',
+      x: 50, y: 50,
+      width: 750,
+      height: 400,
+      fromCenter: false
     }
-    // 获取标记信息并初始化预览图片
-    function initImage(markInfos) {
-      // 从DOM中获取图片显示到canvas上
-      $('canvas').drawImage({
-        layer: true,
-        name: 'background',
-        source: $('#img_001')[0],
-        x: 50, y: 50,
-        width: 750,
-        height: 400,
-        fromCenter: false
-      });
-      if (markInfos && markInfos.length > 0) {
-        for (var i = 0; i < markInfos.length; i++) {
-          markInfos[i].name = 'last_' + markInfos[i].name
-          $('canvas').addLayer(markInfos[i]).drawLayers()
-        }
-      }
-    }
-    function submitMarkInfo () {
-      $.post("test.php", { 'choices[]': ["Jon", "Susan"] });
-    }
-    var markParams = {
-      startX: 0,
-      startY: 0,
-      width: 1,
-      height: 1,
-      index: 0,
-      strokeWidth: 1,
-      color: 'red',
-      type: 'rectangle', // ellipse
-      layerName: 'ln_'
-    }
-    var markList = []
-    var MouseUtil = {
-      options: {},
-      onMouseDown: function (e) {
-        var position = document.querySelector('canvas').getBoundingClientRect()
-        markParams.startX = e.pageX - position.x
-        markParams.startY = e.pageY - position.y
-        width = markParams.width
-        height = markParams.height
-        $('canvas').on('mousemove', this.onMouseMove)
-        $('canvas').on('mouseup', this.onMouseUp)
-      },
-      onMouseMove: function (e) {
-        var position = document.querySelector('canvas').getBoundingClientRect()
-        markParams.width = (e.pageX - position.x - markParams.startX) || 1
-        markParams.height = (e.pageY - position.y - markParams.startY) || 1
-        $('canvas').removeLayer(markParams.layerName + markParams.index);
-        this.options = {
-          // type: 'rectangle',
-          type: markParams.type,
-          strokeStyle: markParams.color,
-          strokeWidth: markParams.strokeWidth,
-          name: markParams.layerName + markParams.index,
-          fromCenter: false,
-          x: markParams.startX, y: markParams.startY,
-          width: markParams.width,
-          height: markParams.height
-        }
-        $('canvas').addLayer(this.options).drawLayers()
-      },
-      onMouseUp: function () {
-        $('canvas').off('mousemove')
-        $('canvas').off('mouseup')
-        markParams.index++
-        markList.push(JSON.parse(JSON.stringify(this.options)))
-      }
-    }
-    // 鼠标按下的事件
-    function drawerInit(event) {
-      return MouseUtil.onMouseDown(event)
-    }
+    infos.markInfos = [{ "type": "rectangle", "strokeStyle": "red", "strokeWidth": 1, "name": "ln_0", "fromCenter": false, "x": 368.59375, "y": 214, "width": 65, "height": 84 }, { "type": "rectangle", "strokeStyle": "red", "strokeWidth": 1, "name": "ln_1", "fromCenter": false, "x": 512.59375, "y": 300, "width": 93, "height": 88 }, { "type": "rectangle", "strokeStyle": "red", "strokeWidth": 1, "name": "ln_2", "fromCenter": false, "x": 384.59375, "y": 378, "width": 61, "height": 47 }, { "type": "ellipse", "strokeStyle": "red", "strokeWidth": 1, "name": "ln_3", "fromCenter": false, "x": 286.59375, "y": 173, "width": 400, "height": 299 }]
+
     /**下面给各种按钮绑定相应事件*/
     $('.markImgByEllipse').on('click', function () {
-      $('canvas').off('mousedown')
-      $('canvas').on('mousedown', drawerInit)
-      markParams.type = 'ellipse'
+     canvas.off('mousedown')
+     canvas.on('mousedown', DrawImageUtil.drawMark)
+      DrawImageUtil.setMarkType('ellipse')
     })
-    $('.markImgByRect').on('click', function (event) {
-      $('canvas').off('mousedown')
-      $('canvas').on('mousedown', drawerInit)
-      markParams.type = 'rectangle'
+    $('.markImgByRect').on('click', function () {
+     canvas.off('mousedown')
+     canvas.on('mousedown', DrawImageUtil.drawMark)
+      DrawImageUtil.setMarkType('rectangle')
     })
+
     $('.clearAllMarks').on('click', function () {
-      // 清空所有标记
-      if (markParams.index > 0) {
-        $('canvas').removeLayers().drawLayers();
-        initImage(markInfos)
-        markParams.index = 0
-        markList.length = 0
-      }
+      DrawImageUtil.clearAllMarks()
     })
+
     $('.goback').on('click', function () {
-      // 撤销上一步操作
-      if (markParams.index > 0){
-        $('canvas').removeLayer(-1).drawLayers();
-        markParams.index--
-        markList.pop()
-      }
+      DrawImageUtil.turnToLast()
+    })
+    // 点击图片预览
+    $('.img-box').on('click', function () {
+      $('.hidden-box').fadeIn()
+      src = $(this).children('img').attr('src')
+      // getMarkInfos().done(function(){
+      //   infos.imageInfo.source = src
+      //   DrawImageUtil.initImage(infos, canvas)
+      // })
+      infos.imageInfo.source = src
+      DrawImageUtil.initImage(infos, canvas)
+    })
+    $('.close').on('click', function () {
+      DrawImageUtil.clearAllMarks()
+      canvas.off()
+      $('markImgByEllipse').off()
+      $('markImgByRect').off()
+      $('.hidden-box').fadeOut()
     })
     // 保存图片
     $('.saveImg').on('click', function () {
-      console.log(JSON.parse(JSON.stringify(markInfos)).concat(markList))
-      submitMarkInfo(markList)
+      var newMarks = DrawImageUtil.getMarks()
+      infos.markInfos = infos.markInfos.concat(newMarks)
+      console.log(infos)
+      // submitMarkInfo(infos)
+    })
+    $('.img-box').hover(function (e) {
+      $(this).children('.describe-box').slideDown('500')
+    },function () {
+      $(this).children('.describe-box').slideUp('fast')
     })
     /**上面给各种按钮绑定相应事件*/
-    
+   /**
+    * 根据id或者什么获取标记信息
+   */
+    function getMarkInfos() {
+      return $.post("test.php", { "func": "getNameAndTime" },
+        function (data) {
+          infos = JSON.parse(data)
+        }, "json");
+    }
+    /**
+     * 提交标记信息
+    */
+    function submitMarkInfo() {
+      $.post("test.php", { 'choices[]': ["Jon", "Susan"] }, function () {
+        canvas.off()
+        $('markImgByEllipse').off()
+        $('markImgByRect').off()
+        $('.hidden-box').fadeOut()
+      });
+    }
   </script>
 </body>
 </html>
