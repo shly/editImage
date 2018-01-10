@@ -17,14 +17,12 @@ var DrawImageUtil = {}
   var markList = []
   var canvas = {}
   var infos = {}
-  var imageId = ''
   DrawImageUtil = {
     // 初始化预览的图片和标记
-    initImage: function (detailInfos, cvs, imgId) {
+    initImage: function (detailInfos, cvs) {
       // 从DOM中获取图片显示到canvas上
       canvas = cvs
       infos = detailInfos
-      imageId = imgId
       canvas.drawImage(infos.imageInfo);
       if (infos.markInfos && infos.markInfos.length > 0) {
         for (var i = 0; i < infos.markInfos.length; i++) {
@@ -45,7 +43,7 @@ var DrawImageUtil = {}
     clearAllMarks: function () {
       if (markParams.index > 0) {
         canvas.removeLayers().drawLayers();
-        this.initImage(infos, canvas, imageId)
+        this.initImage(infos, canvas)
         markParams.index = 0
         markList.length = 0
       }
