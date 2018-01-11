@@ -3,26 +3,34 @@
  */
 var DrawImageUtil = {}
 ~function () {
-  var markParams = {
-    startX: 0,
-    startY: 0,
-    width: 1,
-    height: 1,
-    index: 0,
-    strokeWidth: 1,
-    color: 'red',
-    type: 'rectangle', // ellipse
-    layerName: 'ln_'
-  }
+  var markParams = {}
   var markList = []
   var canvas = {}
   var infos = {}
+  function init () {
+    markParams = {
+      startX: 0,
+      startY: 0,
+      width: 1,
+      height: 1,
+      index: 0,
+      strokeWidth: 1,
+      color: 'red',
+      type: 'rectangle', // ellipse
+      layerName: 'ln_'
+    }
+    markList = []
+    canvas = {}
+    infos = {}
+  }
   DrawImageUtil = {
     // 初始化预览的图片和标记
     initImage: function (detailInfos, cvs) {
       // 从DOM中获取图片显示到canvas上
+      init()
       canvas = cvs
       infos = detailInfos
+      canvas.removeLayers().drawLayers();
       canvas.drawImage(infos.imageInfo);
       if (infos.markInfos && infos.markInfos.length > 0) {
         for (var i = 0; i < infos.markInfos.length; i++) {
@@ -39,7 +47,7 @@ var DrawImageUtil = {}
     setMarkType: function (type) {
       markParams.type = type
     },
-    // 清除所有标记
+    // 清除本次所有标记
     clearAllMarks: function () {
       if (markParams.index > 0) {
         canvas.removeLayers().drawLayers();
@@ -47,6 +55,11 @@ var DrawImageUtil = {}
         markParams.index = 0
         markList.length = 0
       }
+    },
+    // 清除所有标记
+    clearAll: function () {
+      infos.markInfos = []
+      this.initImage(infos, canvas)
     },
     // 回到上一步操作
     turnToLast: function () {

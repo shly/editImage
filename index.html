@@ -145,7 +145,7 @@
       </div>
     </div>
     <div class="img-box">
-      <img src="img/shiyitu1.jpg" alt="示意图一" id="img_001">
+      <img src="img/haha.jpg" alt="示意图一" id="img_001">
       <div class="describe-box">
         <ul>
           <li>
@@ -297,6 +297,7 @@
         <button class="markImgByEllipse">椭圆标记</button>
         <button class="goback">撤销上一步</button>
         <button class="clearAllMarks">清空所有标记</button>
+        <button class="clearAll">还原</button>
         <button class="close">关闭</button>
         <button class="saveImg">保存</button>
       </div>
@@ -335,6 +336,9 @@
     $('.clearAllMarks').on('click', function () {
       DrawImageUtil.clearAllMarks()
     })
+    $('.clearAll').on('click', function () {
+      DrawImageUtil.clearAll()
+    })
 
     $('.goback').on('click', function () {
       DrawImageUtil.turnToLast()
@@ -351,7 +355,7 @@
       DrawImageUtil.initImage(infos, canvas)
     })
     $('.close').on('click', function () {
-      DrawImageUtil.clearAllMarks()
+      // DrawImageUtil.clearAllMarks()
       canvas.off()
       $('markImgByEllipse').off()
       $('markImgByRect').off()
