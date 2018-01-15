@@ -7,6 +7,7 @@ var DrawImageUtil = {}
   var markList = []
   var canvas = {}
   var infos = {}
+  var isDrawing = false
   function init () {
     markParams = {
       startX: 0,
@@ -77,13 +78,16 @@ var DrawImageUtil = {}
   var MouseUtil = {
     options: {},
     onMouseDown: function (e) {
-      var position = canvas[0].getBoundingClientRect()
-      markParams.startX = e.pageX - position.x
-      markParams.startY = e.pageY - position.y
-      width = markParams.width
-      height = markParams.height
-      canvas.on('mousemove', this.onMouseMove)
-      canvas.on('mouseup', this.onMouseUp)
+      if (!isDrawing) {
+        var position = canvas[0].getBoundingClientRect()
+        markParams.startX = e.pageX - position.x
+        markParams.startY = e.pageY - position.y
+        width = markParams.width
+        height = markParams.height
+        canvas.on('mousemove', this.onMouseMove)
+        canvas.on('mouseup', this.onMouseUp)
+        isDrawing = true
+      }
     },
     onMouseMove: function (e) {
       var position = canvas[0].getBoundingClientRect()
@@ -107,6 +111,7 @@ var DrawImageUtil = {}
       canvas.off('mouseup')
       markParams.index++
       markList.push(JSON.parse(JSON.stringify(this.options)))
+      isDrawing = false
     }
   }
 }()
