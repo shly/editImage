@@ -8,7 +8,8 @@ var DrawImageUtil = {}
   var canvas = {}
   var infos = {}
   var isDrawing = false
-  function init () {
+  var isMoved = false
+  function init() {
     markParams = {
       startX: 0,
       startY: 0,
@@ -64,10 +65,12 @@ var DrawImageUtil = {}
     },
     // 回到上一步操作
     turnToLast: function () {
-      if (markParams.index > 0) {
+      if (markList.length > 0 && markParams.index > 0) {
         canvas.removeLayer(-1).drawLayers();
         markParams.index--
         markList.pop()
+      } else {
+        markParams.index = 0
       }
     },
     // 返回标记信息
@@ -90,6 +93,7 @@ var DrawImageUtil = {}
       }
     },
     onMouseMove: function (e) {
+      isMoved = true
       var position = canvas[0].getBoundingClientRect()
       markParams.width = (e.pageX - position.x - markParams.startX) || 1
       markParams.height = (e.pageY - position.y - markParams.startY) || 1
@@ -109,8 +113,11 @@ var DrawImageUtil = {}
     onMouseUp: function () {
       canvas.off('mousemove')
       canvas.off('mouseup')
-      markParams.index++
-      markList.push(JSON.parse(JSON.stringify(this.options)))
+      if (isMoved) {
+        markParams.index++
+        markList.push(JSON.parse(JSON.stringify(this.options)))
+      }
+      isMoved = false
       isDrawing = false
     }
   }
