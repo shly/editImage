@@ -49,6 +49,14 @@ var DrawImageUtil = {}
     setMarkType: function (type) {
       markParams.type = type
     },
+    // 设置标记颜色
+    setColor: function (color) {
+      markParams.color = color
+    },
+    // 设置标记边框宽度
+    setStrokeWidth: function (width) {
+      markParams.strokeWidth = width
+    },
     // 清除本次所有标记
     clearAllMarks: function () {
       if (markParams.index > 0) {
